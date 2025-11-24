@@ -7,6 +7,7 @@ public class itembar : MonoBehaviour
     public bool slot2;
     public bool slot3;
 
+    public GameObject chave;
 
 
 
@@ -16,10 +17,10 @@ public class itembar : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("chave1") && slot1 == false)
+        if (other.gameObject.CompareTag("Chave") && slot1 == false)
         {
             slot1 = true;
-            gameObject.SetActive(false);
+            chave.SetActive(true);
         }
 
 
