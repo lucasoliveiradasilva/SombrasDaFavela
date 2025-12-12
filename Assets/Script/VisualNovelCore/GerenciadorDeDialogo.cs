@@ -1,17 +1,10 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
-[Serializable]
-public class LinhaDeDialogo
-{
-    public string idPersonagem;
-    [TextArea] public string texto;
-    public List<OpcaoDeDialogo> opcoes;
-}
 
 [Serializable]
 public class OpcaoDeDialogo
@@ -20,26 +13,30 @@ public class OpcaoDeDialogo
     public int proximo;
 }
 
+[Serializable]
+public class LinhaDeDialogo
+{
+    public string idPersonagem;
+    [TextArea] public string texto;
+    public List<OpcaoDeDialogo> opcoes;
+
+    [Header("Essa linha termina a cena?")]
+    public bool ehFinalDaCena;   // checkbox no inspector
+}
+
 public class GerenciadorDeDialogo : MonoBehaviour
 {
-    #region ==== CONFIGURA«’ES ====
-    [Header("Delay antes do di·logo comeÁar")]
+    [Header("Delay antes do di√°logo come√ßar")]
     public float atrasoInicial = 1.5f;
-    #endregion
 
-    #region ==== REFER NCIAS DE UI ====
+    [Header("Refer√™ncias UI")]
     public TMP_Text textoDialogo;
     public Transform containerOpcoes;
     public Button prefabOpcao;
-    #endregion
 
-    #region ==== DADOS DO DI¡LOGO ====
     public List<LinhaDeDialogo> linhas;
-    #endregion
 
-    #region ==== EVENTOS ====
     public Action<string> QuandoTrocarPersonagem;
-    #endregion
 
     int indice = 0;
     Coroutine typewriterRodando;
@@ -49,26 +46,80 @@ public class GerenciadorDeDialogo : MonoBehaviour
         StartCoroutine(FluxoInicial());
     }
 
-    #region ==== FLUXO INICIAL COM DELAY ====
     IEnumerator FluxoInicial()
     {
+        // cuidado: FindFirstObjectByType requer Unity vers√£o compat√≠vel (2023+). 
+        // Se dar erro, troque por FindObjectOfType<RealcadorDePersonagem>().
         var highlighter = FindFirstObjectByType<RealcadorDePersonagem>();
-        QuandoTrocarPersonagem += highlighter.Destacar;
+        if (highlighter != null)
+            QuandoTrocarPersonagem += highlighter.Destacar;
 
         yield return new WaitForSeconds(atrasoInicial);
 
         MostrarLinha(0);
     }
-    #endregion
 
-    #region ==== MOSTRAR LINHA ====
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TentarAvancar();
+        }
+    }
+
+    void TentarAvancar()
+    {
+        if (linhas == null || linhas.Count == 0) return;
+
+        var linha = linhas[indice];
+
+        // se typewriter rodando, termina imediatamente
+        if (typewriterRodando != null)
+        {
+            StopCoroutine(typewriterRodando);
+            typewriterRodando = null;
+
+            textoDialogo.text = linha.texto;
+            return;
+        }
+
+        // Se for final da cena ‚Üí troca de cena
+        if (linha.ehFinalDaCena)
+        {
+            IrParaProximaCena();
+            return;
+        }
+
+        // Se houver op√ß√µes, o jogador deve clicar nelas
+        if (linha.opcoes != null && linha.opcoes.Count > 0)
+            return;
+
+        MostrarProximaLinha();
+    }
+
+    void MostrarProximaLinha()
+    {
+        int proximo = indice + 1;
+
+        if (proximo >= linhas.Count)
+        {
+            // chegou ao fim da lista: vai para pr√≥xima cena
+            IrParaProximaCena();
+            return;
+        }
+
+        MostrarLinha(proximo);
+    }
+
     void MostrarLinha(int i)
     {
+        if (linhas == null || linhas.Count == 0) return;
+        if (i < 0 || i >= linhas.Count) return;
+
         indice = i;
         LimparOpcoes();
 
         var linha = linhas[indice];
-
         QuandoTrocarPersonagem?.Invoke(linha.idPersonagem);
 
         if (typewriterRodando != null)
@@ -82,15 +133,14 @@ public class GerenciadorDeDialogo : MonoBehaviour
         foreach (var opcao in linha.opcoes)
         {
             var b = Instantiate(prefabOpcao, containerOpcoes);
-            b.GetComponentInChildren<TMP_Text>().text = opcao.texto;
+            var textoBtn = b.GetComponentInChildren<TMP_Text>();
+            if (textoBtn != null) textoBtn.text = opcao.texto;
 
             int proximo = opcao.proximo;
             b.onClick.AddListener(() => MostrarLinha(proximo));
         }
     }
-    #endregion
 
-    #region ==== TYPEWRITER ====
     IEnumerator Typewriter(string frase)
     {
         textoDialogo.text = "";
@@ -99,14 +149,23 @@ public class GerenciadorDeDialogo : MonoBehaviour
             textoDialogo.text += c;
             yield return new WaitForSeconds(0.02f);
         }
+        typewriterRodando = null;
     }
-    #endregion
 
-    #region ==== LIMPAR OP«’ES ====
     void LimparOpcoes()
     {
+        if (containerOpcoes == null) return;
         foreach (Transform t in containerOpcoes)
             Destroy(t.gameObject);
     }
-    #endregion
+
+    void IrParaProximaCena()
+    {
+        int cenaAtual = SceneManager.GetActiveScene().buildIndex;
+        // opcional: verificar se existe cena seguinte no Build Settings
+        if (cenaAtual + 1 < SceneManager.sceneCountInBuildSettings)
+            SceneManager.LoadScene(cenaAtual + 1);
+        else
+            Debug.LogWarning("N√£o h√° pr√≥xima cena no Build Settings.");
+    }
 }

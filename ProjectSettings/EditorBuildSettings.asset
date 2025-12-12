@@ -9,11 +9,17 @@ EditorBuildSettings:
     path: Assets/Scenes/MenuPrincipal.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/CenaPrincipal.unity
+    guid: 9f3b2ba65ce454c4abdfec197adf8d72
+  - enabled: 1
     path: "Assets/Scenes/Pr\xF3logo.unity"
     guid: f9aa1775ad0321541bc580cbff3a7b54
   - enabled: 1
-    path: Assets/Scenes/CenaPrincipal.unity
-    guid: 9f3b2ba65ce454c4abdfec197adf8d72
+    path: Assets/Scenes/Cena01.unity
+    guid: e115c46951b0aa4449968b30568b9b83
+  - enabled: 1
+    path: Assets/Scenes/Cena02.unity
+    guid: acf690102c94c3d4082b3daaf46e025c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

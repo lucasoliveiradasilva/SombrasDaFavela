@@ -1671,7 +1671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8c88a6456c3204bb119b9d0e5372bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrocarCena
-  nomeDaCena: CenaPrincipal
+  nomeDaCena: Cena01
   delayAntesDeTrocar: 2
   fadeObject: {fileID: 437369138}
 --- !u!1 &1529722675
