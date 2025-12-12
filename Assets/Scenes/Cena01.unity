@@ -561,7 +561,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -626,7 +626,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -522.44727, w: -111.87077}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -908,15 +908,32 @@ MonoBehaviour:
   prefabOpcao: {fileID: 3569741827784312715, guid: 433c703495250534581ce08dd7c6b3b4, type: 3}
   linhas:
   - idPersonagem: Susane
-    texto: "Como vc est\xE1?"
+    texto: "Opa, sou eu a suzana, desculpe ter pedido t\xE3o tarde assim, mas \xE9
+      porque \xE9 urgente, N\xF3s seremos despejados em breve e n\xE3o  temos outro
+      lugar para ir"
     opcoes: []
-    ehFinalDaCena: 0
+    ehFinalDaCena: 1
   - idPersonagem: Zeca
     texto: "Estou \xF3timo!"
     opcoes: []
     ehFinalDaCena: 0
   - idPersonagem: Zeca
     texto: Oque houve?
+    opcoes: []
+    ehFinalDaCena: 1
+  - idPersonagem: Susane
+    texto: "Desde que eu entrei nesse pr\xE9dio, ele n\xE3o era o melhor,, mas era
+      confort\xE1vel e aconchegante, meu filho mais novo e muito apegado aqui e pela
+      vizinhan\xE7a do pr\xE9dio \r\n"
+    opcoes: []
+    ehFinalDaCena: 1
+  - idPersonagem: Zeca
+    texto: "Anotado, mas o que voc\xEA vai fazer com a reportagem e a investiga\xE7\xE3o? "
+    opcoes: []
+    ehFinalDaCena: 1
+  - idPersonagem: Susane
+    texto: "Eu planejo ou mostrar \xE0s autoridades ou discutir com o dono, por que
+      t\xE1 tudo mundo esta com medo de sa\xEDrem daqui\r\n "
     opcoes: []
     ehFinalDaCena: 1
 --- !u!1 &785091775
